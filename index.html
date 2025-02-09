@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarFall</title>
+    <link rel="stylesheet" href="styles-game.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/MotionPathPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+
+    <!-- قسم التسجيل/الدخول المدمج -->
+    <div class="auth-section" id="authSection">
+        <h2 id="authTitle">تسجيل الدخول</h2>
+        <div id="loginForm">
+            <input type="email" id="email" placeholder="البريد الإلكتروني">
+            <input type="password" id="password" placeholder="كلمة المرور">
+            <label>
+                <input type="checkbox" id="rememberMe"> تذكرني
+            </label>
+            <button onclick="login()">تسجيل الدخول</button>
+            <p>ليس لديك حساب؟ <a href="#" onclick="showSignupForm()">إنشاء حساب</a></p>
+            <p><a href="#" onclick="showForgotPasswordForm()">نسيت كلمة السر؟</a></p>
+        </div>
+        <div id="forgotPasswordForm" style="display: none;">
+            <input type="email" id="forgotEmail" placeholder="ادخل البريد الالكتروني لاستعادة كلمة السر">
+            <button onclick="resetPasswordRequest()">إرسال رابط التعديل</button>
+            <p>لديك حساب بالفعل؟ <a href="#" onclick="showLoginForm()">تسجيل الدخول</a></p>
+        </div>
+        <div id="signupForm" style="display: none;">
+            <input type="text" id="newUsername" placeholder="اسم المستخدم">
+            <input type="email" id="newUserEmail" placeholder="البريد الإلكتروني">
+            <input type="tel" id="newUserPhone" placeholder="رقم الهاتف">
+            <input type="password" id="newUserPassword" placeholder="كلمة المرور">
+            <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور">
+            <button onclick="signup()">إنشاء حساب</button>
+            <p>لديك حساب بالفعل؟ <a href="#" onclick="showLoginForm()">تسجيل الدخول</a></p>
+        </div>
+    </div>
+
+    <!-- قسم ملف المستخدم -->
+    <div class="profile-section" id="profileSection" style="display: none;">
+        <h2>ملف المستخدم</h2>
+          <div class="profile-tabs">
+            <button class="tab-button active" data-tab="info">معلوماتي</button>
+            <button class="tab-button" data-tab="settings">إعدادات</button>
+        </div>
+        <div id="profileInfoTab" class="profile-tab active">
+            <div class="profile-info">
+                <p><b>اسم المستخدم:</b> <span id="profileUsername"></span> <button onclick="toggleEdit('username')">تعديل</button></p>
+                <div id="editUsername" style="display:none;">
+                    <input type="text" id="editNewUsername" placeholder="اسم المستخدم الجديد">
+                    <button onclick="updateProfile('username')">حفظ</button>
+                    <button onclick="toggleEdit('username')">إلغاء</button>
+                </div>
+                <p><b>البريد الإلكتروني:</b> <span id="profileEmail"></span><button onclick="toggleEdit('email')">تعديل</button></p>
+                <div id="editEmail" style="display:none;">
+                    <input type="email" id="editNewEmail" placeholder="البريد الإلكتروني الجديد">
+                    <button onclick="updateProfile('email')">حفظ</button>
+                    <button onclick="toggleEdit('email')">إلغاء</button>
+                </div>
+                <p><b>رقم الهاتف:</b> <span id="profilePhone"></span><button onclick="toggleEdit('phone')">تعديل</button></p>
+                <div id="editPhone" style="display:none;">
+                    <input type="tel" id="editNewPhone" placeholder="رقم الهاتف الجديد">
+                    <button onclick="updateProfile('phone')">حفظ</button>
+                    <button onclick="toggleEdit('phone')">إلغاء</button>
+                </div>
+                  <p><b>تاريخ التسجيل:</b> <span id="profileRegistrationDate"></span></p>
+                <p><b>الرصيد:</b> <span id="profileBalance"></span> EGP</p>
+                <p><b>إجمالي الأرباح:</b> <span id="profileTotalProfit"></span> EGP</p>
+                 <p><b>صافي الربح:</b> <span id="profileNetProfit"></span> EGP</p>
+            </div>
+        </div>
+        <div id="profileSettingsTab" class="profile-tab" style="display: none;">
+               <label for="themeSelect"><b>الوضع:</b></label>
+                 <select id="themeSelect" onchange="changeTheme(this.value)">
+                   <option value="light">فاتح</option>
+                   <option value="dark">داكن</option>
+                 </select>
+               <div class="change-password-container">
+                   <h3>تغيير كلمة المرور</h3>
+                       <input type="password" id="currentPassword" placeholder="كلمة المرور الحالية">
+                       <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة">
+                       <input type="password" id="confirmNewPassword" placeholder="تأكيد كلمة المرور الجديدة">
+                        <button onclick="changePassword()">تغيير كلمة المرور</button>
+               </div>
+               <div class="language-settings">
+                <label for="languageSelect"><b>اللغة:</b></label>
+                    <select id="languageSelect">
+                    <option value="ar">العربية</option>
+                     <option value="en">الإنجليزية</option>
+                   </select>
+                </div>
+        </div>
+         <button onclick="showGame()">العودة إلى اللعبة</button>
+    </div>
+    <!-- قسم خيارات اللعبة -->
+    <div class="game-options-section" id="gameOptionsSection" style="display: none;">
+        <h2>خيارات اللعبة</h2>
+        <div class="options-container">
+            <div class="option">
+               <button onclick="showProfile()"><img src="images/user.png" alt="ملفي" style="width: 20px;height: 20px; margin-left: 5px;">  ملفي</button>
+                <span>عرض معلومات ملفك الشخصي وتعديلها</span>
+            </div>
+            <div class="option">
+                  <button onclick="logout()"><img src="images/logout.png" alt="تسجيل الخروج" style="width: 20px;height: 20px; margin-left: 5px;"> تسجيل الخروج</button>
+                <span>تسجيل الخروج من حسابك الحالي</span>
+            </div>
+             <div class="option">
+                <div class="transaction-container">
+                   <div class="transaction-tabs">
+                      <button class="tab-button active" data-content="deposit">إيداع</button>
+                       <button class="tab-button" data-content="withdrawal">سحب</button>
+                   </div>
+                    <div class="transaction-content active" data-content="deposit">
+                           <input type="number" id="transactionAmount" placeholder="المبلغ">
+                            <input type="tel" id="senderPhone" placeholder="رقم المرسل">
+                            <select id="receiverNumbers" style="margin-right: 10px; margin-left: 10px;">
+                            </select>
+                            <input type="file" id="depositImage" accept="image/*" style="display: block; margin-top: 10px;margin-bottom: 10px;">
+                            <button onclick="requestDeposit()"><img src="images/deposit-icon.png" alt="إيداع" style="width: 20px;height: 20px; margin-left: 5px;"> إيداع</button>
+                    </div>
+                     <div class="transaction-content" data-content="withdrawal" style="display: none;">
+                          <input type="number" id="withdrawalAmount" placeholder="مبلغ السحب" style="margin-right:10px;margin-top: 10px;">
+                           <button onclick="requestWithdrawal()" id="withdrawalButton" style="margin-top: 10px;"> <img src="images/withdraw-icon.png" alt="سحب" style="width: 20px;height: 20px; margin-left: 5px;"> سحب</button>
+                      </div>
+                </div>
+                <span>إيداع أو سحب الرصيد من حسابك</span>
+            </div>
+            <div class="option">
+                <button onclick="showGame()"><img src="images/game.png" alt="العودة إلى اللعبة" style="width: 20px;height: 20px; margin-left: 5px;"> العودة إلى اللعبة</button>
+                <span>العودة إلى شاشة اللعبة الرئيسية</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم اللعبة -->
+    <div class="game-section" id="gameSection" style="display: none;">
+        <div class="top-section">
+            <div class="game-title">
+                <h1 id="gameTitle">StarFall</h1>
+                <img src="images/game-logo.png" alt="Game Logo" class="game-logo">
+                 <!-- زر المشاركة -->
+                <button class="share-button" onclick="shareGame()"><i class="fas fa-share-alt"></i></button>
+            </div>
+
+            <div class="user-info">
+                <button class="dropbtn" onclick="showGameOptions()">الخيارات</button>
+            </div>
+        </div>
+
+        <div class="sound-control">
+            <button id="toggleSound" class="sound-button"><i class="fas fa-volume-up"></i></button>
+        </div>
+
+        <div class="balance-container">
+            <h3>رصيدك: <span id="userBalance">0</span> E            G
+            </h3>
+                    </div>
+
+                    <div class="progress-container">
+                        <div id="notification-area" class="notification-area"></div>
+                           <div id="birdProgress" class="bird-progress"></div>
+                    </div>
+
+                    <div class="multiplier" id="multiplier">
+                        <span id="multiplierText">1.00x</span>
+                        <img src="images/explosion.png" id="explosionImage" class="explosion-image" alt="Explosion"
+                            style="display: none;">
+                    </div>
+
+                    <div class="timer" id="timer"></div>
+
+                    <div id="messageBox" class="message"></div>
+
+                    <h2>محدد الرهان</h2>
+                    <div class="bet-input">
+                        <button class="bet-control" onclick="changeBetAmount(-10)">-10</button>
+                        <input type="number" id="betAmount" value="10" placeholder="ادخل قيمة الرهان">
+                        <button class="bet-control" onclick="changeBetAmount(10)">+10</button>
+                       <button onclick="startBet()" id="startBetButton" class="start-bet-button"> <img src="images/finger.png" alt="بدء الرهان" style="width: 20px;height: 20px; margin-left: 5px;"> بدء الرهان</button>
+                    </div>
+                    <div class="bet-options">
+                        <button onclick="setBetAmount(10)">10</button>
+                        <button onclick="setBetAmount(50)">50</button>
+                        <button onclick="setBetAmount(100)">100</button>
+                        <button onclick="setBetAmount(1000)">1000</button>
+                        <button onclick="setBetAmount(5000)">5000</button>
+                    </div>
+
+                    <h2>الرهانات الحالية</h2>
+                    <table id="betsTable">
+                        <tr>
+                            <th>اسم المستخدم</th>
+                            <th>المضاعفة</th>
+                            <th>الرهان</th>
+                            <th>الإرباح</th>
+                        </tr>
+                    </table>
+
+                    <canvas id="betCanvas" width="400" height="400"></canvas>
+
+                    <h2>مرحبًا, <span id="loggedInUser"></span></h2>
+                </div>
+
+                <script src="scripts-game.js"></script>
+            </body>
+
+            </html>

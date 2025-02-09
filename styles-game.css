@@ -1,0 +1,705 @@
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: #000;
+    padding: 0;
+    text-align: center;
+    background-image: url('images/space-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+h1,
+h2,
+h3 {
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+}
+
+input,
+button {
+    padding: 12px;
+    margin: 5px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #fff;
+    transition: background-color 0.3s ease;
+    text-shadow: 1px 1px 2px #000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+button {
+    background-color: #673ab7;
+    color: white;
+    cursor: pointer;
+     text-shadow: 1px 1px 2px #000;
+     border: none;
+     box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+    background-color: #4527a0;
+}
+
+.sound-control {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.sound-button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.3s ease;
+       text-shadow: 1px 1px 2px #000;
+
+}
+
+.sound-button:hover {
+    color: #673ab7;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: rgba(34, 34, 34, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+      text-shadow: 1px 1px 2px #000;
+}
+
+th {
+    background-color: #673ab7;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(51, 51, 51, 0.5);
+}
+
+.auth-section,
+.add-user-section,
+.login-section,
+.game-section,
+.profile-section,
+.game-options-section {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+     border: 1px solid #333;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    width: 70%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-options-section .options-container {
+   width: 80%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+.game-options-section .options-container .option {
+    display: flex;
+     width: 100%;
+     justify-content: flex-start;
+     align-items: center;
+     margin-bottom: 10px;
+     padding: 10px;
+     border: 1px solid #555;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+     background-color: #333;
+ }
+ .game-options-section .options-container .option:hover {
+      background-color: #444;
+ }
+ 
+ .game-options-section .options-container .option button {
+     flex: 0 0 auto;
+     padding: 10px 15px;
+     font-size: 1em;
+     margin-right: 10px;
+     white-space: nowrap;
+ }
+ .game-options-section .options-container .option span{
+     flex: 1;
+     text-align: left;
+     font-size: 14px;
+         color:#ccc;
+             text-shadow: 1px 1px 2px #000;
+ }
+ 
+ .add-balance-section {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin-bottom: 20px;
+ }
+ 
+ .add-balance-section input {
+     width: 200px;
+ }
+ 
+ .multiplier {
+     font-size: 3em;
+     font-weight: bold;
+     color: #673ab7;
+     margin: 30px auto;
+     animation: multiplierAnimation 1s infinite;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+        text-shadow: 2px 2px 4px #000;
+ }
+ 
+ @keyframes multiplierAnimation {
+     0% {
+         transform: scale(1);
+         color: #673ab7;
+     }
+ 
+     50% {
+         transform: scale(1.2);
+         color: #ff9800;
+     }
+ 
+     100% {
+         transform: scale(1);
+         color: #673ab7;
+     }
+ }
+ 
+ .explosion-image {
+     width: 60px;
+     height: 60px;
+     vertical-align: middle;
+     margin-left: 10px;
+     animation: explosionAnimation 0.5s ease-out;
+ }
+ 
+ @keyframes explosionAnimation {
+     0% {
+         transform: scale(0);
+         opacity: 1;
+     }
+     100% {
+         transform: scale(1.5);
+         opacity: 0;
+     }
+ }
+ 
+ .progress-container {
+     width: 80%;
+     height: 60px;    margin: 30px auto;
+     position: relative;
+     overflow: hidden;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+       background: linear-gradient(to right, #333, #555);
+       border-radius: 5px;
+ }
+ 
+ .bird-progress {
+     position: absolute;
+     height: 60px;
+     left: 0;
+     transition: left 0.1s linear;
+ }
+ .animation-line{
+        position: absolute;
+         height: 10px;
+     left: 0;
+        top: 50%;
+           transform: translateY(-50%);
+        background: linear-gradient(to right, red, rgba(255, 0, 0, 0.1));
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+     transition: width 0.1s linear,box-shadow 0.1s linear ;
+       border-radius: 5px;
+ }
+ 
+ #chatBox {
+     margin: 20px auto;
+     padding: 20px;
+     background-color: rgba(255, 255, 255, 0.1);
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+     width: 50%;
+ }
+ 
+ #chatMessages {
+     height: 150px;
+     overflow-y: scroll;
+     border: 1px solid #555;
+     padding: 10px;
+     margin-bottom: 10px;
+     background-color: #333;
+     color: #fff;
+ }
+ 
+ #chatInput {
+     width: 70%;
+ }
+ 
+ .bet-options {
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+     margin-bottom: 20px;
+ }
+ 
+ .bet-options button {
+     margin: 5px;
+     padding: 12px;
+     font-size: 18px;
+ }
+ 
+ .bet-input {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-bottom: 15px;
+ }
+ 
+ .bet-input .start-bet-button {
+     margin-left: 10px;
+     padding: 12px 20px;
+     font-size: 18px;
+ }
+ 
+ 
+ .bet-control {
+     padding: 10px;
+     margin: 5px;
+     cursor: pointer;
+ }
+ 
+ .top-section {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     width: 100%;
+     padding: 10px 20px;
+     margin-bottom: 20px;
+     box-sizing: border-box;
+ }
+ 
+ .game-title {
+     display: flex;
+     align-items: center;
+ }
+ .share-button {
+     background-color: #673ab7;
+     color: white;
+     border: none;
+     cursor: pointer;
+     padding: 10px 15px;
+     font-size: 16px;
+      margin-left: 10px;
+     border-radius: 5px;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+     transition: background-color 0.3s ease;
+ }
+ .share-button:hover,
+ .share-button:focus {
+     background-color: #4527a0;
+ }
+ .game-logo {
+     width: 80px;
+     height: auto;
+     margin-right: 15px;
+ }
+ 
+ #gameTitle {
+     font-family: 'Bangers', cursive;
+     font-size: 2em;
+     margin: 0;
+     text-shadow: 2px 2px 4px #000;
+ }
+ 
+ .user-info {
+     display: flex;
+     align-items: center;
+ }
+ 
+ .dropbtn {
+     padding: 10px 15px;
+     font-size: 16px;
+     margin-left: 15px;
+ }
+ 
+ 
+ .balance-container {
+     text-align: center;
+     margin-bottom: 15px;
+     margin-top: 10px;
+     font-size: 1.3em;
+     font-weight: bold;
+     color: #fff;
+     text-shadow: 1px 1px 2px #000;
+ }
+ 
+ .balance-container h3{
+   font-size: 1em;
+   margin: 0;
+ }
+ 
+ 
+ .transaction-section {
+     display: flex;
+     align-items: center;
+     margin-right: 20px;
+ }
+ 
+ .transaction-container {
+     display: flex;
+     flex-direction: column;
+     margin-bottom: 10px;
+ }
+ 
+ .transaction-tabs {
+     display: flex;
+     justify-content: center;
+     margin-bottom: 10px;
+ }
+ 
+ .transaction-tabs .tab-button {
+     padding: 10px;
+     margin: 0 5px;
+     border: 1px solid #555;
+     border-radius: 5px;
+     font-size: 16px;
+     background-color: #333;
+     color: #fff;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+ }
+ 
+ .transaction-tabs .tab-button.active {
+     background-color: #673ab7;
+ }
+ 
+ .transaction-content {
+     padding: 10px;
+     background-color: rgba(255, 255, 255, 0.1);
+     border-radius: 10px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+ 
+ .transaction-section input {
+     width: 100px;
+     margin-right: 5px;
+ }
+ 
+ .transaction-tab {
+     display: none;
+     width: 90%;
+ }
+ 
+ .transaction-tab.active {
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ #logoutButton {
+     margin-left: 20px;
+     margin-top: 0;
+     padding: 10px;
+     display: none;
+ }
+ 
+ .game-section h1 {
+     text-align: center;
+     margin-bottom: 10px;
+ }
+ 
+ /* منطقة الإشعارات */
+ .notification-area {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     pointer-events: none;
+     z-index: 1000;
+ }
+ 
+ .notification {
+     background-color: rgba(0, 0, 0, 0.7);
+     color: white;
+     padding: 15px 20px;
+     margin-bottom: 10px;
+     border-radius: 8px;
+     font-size: 1.2em;
+     display: flex;
+     align-items: center;
+     opacity: 0;
+     transform: translateY(-20px);
+     pointer-events: auto;
+        text-shadow: 1px 1px 2px #000;
+     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+ }
+ 
+ /* تعديل نمط الصور في الإشعارات */
+ .notification-image {
+     width: 35px;
+     height: 35px;
+     margin-left: 10px;
+     margin-right: 8px;
+     vertical-align: middle;
+     border-radius: 50%;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+ }
+ 
+ 
+ .notification i {
+     margin-left: 10px;
+ }
+ 
+ .win-notification {
+     background-color: rgba(103, 58, 183, 0.8);
+ }
+ 
+ .lose-notification {
+     background-color: rgba(244, 67, 54, 0.8);
+ }
+ 
+ .dropbtn {
+     background-color: #673ab7;
+     color: white;
+     padding: 10px;
+     font-size: 16px;
+     border: none;
+     cursor: pointer;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+     margin-left: 20px;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+ }
+ 
+ .dropbtn:hover,
+ .dropbtn:focus {
+     background-color: #4527a0;
+ }
+ 
+ .dropdown {
+     position: relative;
+     display: inline-block;
+ }
+ 
+ .dropdown-content {
+     display: none;
+     position: absolute;
+     background-color: #f1f1f1;
+     min-width: 160px;
+     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+     z-index: 1;
+     right: 0;
+ }
+ 
+ .dropdown-content a {
+     color: black;
+     padding: 12px 16px;
+     text-decoration: none;
+     display: block;
+ }
+ 
+ .dropdown-content a:hover {
+     background-color: #ddd;
+ }
+ 
+ .dropdown:hover .dropdown-content {
+     display: block;
+ }
+ 
+ .options-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+ 
+ .options-container button {
+     margin-bottom: 10px;
+ }
+ 
+ /* استعلامات الوسائط للهواتف */
+ @media (max-width: 768px) {
+     .auth-section,
+     .add-user-section,
+     .login-section,
+     .game-section,
+     .profile-section,
+     .game-options-section {
+         width: 95%;
+         max-width: none;
+         margin: 10px auto;
+         padding: 15px;
+     }
+ 
+     h1 {
+         font-size: 2em;
+     }
+ 
+     h2 {
+         font-size: 1.6em;
+     }
+ 
+     h3 {
+         font-size: 1.3em;
+     }
+ 
+     input,
+     button,
+     .dropbtn {
+         padding: 10px;
+         font-size: 14px;
+     }
+ 
+     .bet-options button {
+         padding: 10px;
+         font-size: 16px;
+     }
+ 
+     .multiplier {
+         font-size: 2.5em;
+         margin: 20px auto;
+     }
+ 
+     .game-logo {
+         width: 80px;
+     }
+ 
+     table {
+         width: 95%;
+         font-size: 0.9em;
+         margin: 10px auto;
+     }
+ 
+     th,
+     td {
+         padding: 8px;
+     }
+ 
+     .balance-container h3{
+       font-size: 1em;
+     }
+ 
+     .notification {
+         padding: 10px 15px;
+         font-size: 1em;
+         border-radius: 8px;
+     }
+ 
+     .notification-image {
+         width: 25px;
+         height: 25px;
+         margin-left: 8px;
+         margin-right: 3px;
+     }
+ 
+     .game-options-section .options-container {
+         width: 95%;
+         max-width: none;
+     }
+ 
+     .game-options-section .options-container .option span{
+         font-size: 12px;
+     }
+ 
+     .bet-input .start-bet-button {
+         margin-left: 5px;
+         padding: 10px 15px;
+         font-size: 16px;
+     }
+     .bet-input input[type="number"] {
+         width: 150px;
+     }
+     .bet-control {
+         padding: 8px;
+         margin: 3px;
+     }
+     .bet-options button {
+         margin: 3px;
+         padding: 10px;
+         font-size: 14px;
+     }
+     .progress-container {
+         height: 50px;
+         margin: 20px auto;
+     }
+ 
+     .bird-progress {
+         height: 50px;
+     }
+ }
+ .dark-theme {
+   background-color: #1a1a1a;
+    color: #ddd;
+ 
+ }
+ .dark-theme h1,
+ .dark-theme h2,
+ .dark-theme h3 {
+   color: #ddd;
+ }
+ .dark-theme input,
+ .dark-theme button,
+ .dark-theme .dropbtn {
+      background-color: #333;
+     color: #ddd;
+ }
+ 
+ .dark-theme .notification {
+     background-color: rgba(51, 51, 51, 0.9);
+ }
+ .dark-theme .game-options-section .options-container .option{
+  background-color: #333;
+ }
+ .dark-theme table{
+    background-color: rgba(51, 51, 51, 0.8);
+ }
+ .dark-theme  tr:nth-child(even) {
+  background-color: rgba(68, 68, 68, 0.8);
+ }

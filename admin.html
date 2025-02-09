@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="styles-admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>لوحة التحكم</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-section="stats"><i class="fas fa-chart-line"></i> الإحصائيات</a></li>
+                <li><a href="#" data-section="users"><i class="fas fa-users"></i> المستخدمين</a></li>
+                <li><a href="#" data-section="transactions"><i class="fas fa-exchange-alt"></i> المعاملات</a></li>
+                <li><a href="#" data-section="receiverNumbers"><i class="fas fa-phone-square"></i> أرقام التحويل</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+              <div id="notification-area" class="notification-area"></div>
+
+            <div id="stats-section" class="content-section active">
+                <h2><i class="fas fa-chart-line"></i> الإحصائيات</h2>
+                <div class="stats-cards">
+                    <div class="stats-card">
+                        <i class="fas fa-users"></i>
+                        <p>عدد المستخدمين: <span id="totalUsers">0</span></p>
+                    </div>
+                    <div class="stats-card">
+                        <i class="fas fa-arrow-circle-up"></i>
+                        <p>إجمالي الإيداعات: <span id="totalDeposits">0</span> EGP</p>
+                    </div>
+                    <div class="stats-card">
+                        <i class="fas fa-arrow-circle-down"></i>
+                        <p>إجمالي السحوبات: <span id="totalWithdrawals">0</span> EGP</p>
+                    </div>
+                </div>
+                 <div class="chart-container">
+                    <canvas id="usersChart"></canvas>
+                      <canvas id="transactionsChart"></canvas>
+                    </div>
+            </div>
+
+             <div id="users-section" class="content-section" style="display: none;">
+                <h2><i class="fas fa-users"></i> المستخدمين</h2>
+                  <div class="filter-container">
+                    <input type="text" id="searchInputUsers" placeholder="ابحث بالاسم أو البريد الإلكتروني أو رقم الهاتف">
+                    <select id="filterBalanceUsers">
+                        <option value="all">الكل</option>
+                        <option value="high">أعلى رصيد</option>
+                        <option value="low">أقل رصيد</option>
+                    </select>
+                      <button onclick="applyUserFilters()">تصفية</button>
+                </div>
+                 <div class="add-user-container">
+                        <h3>إضافة مستخدم أو مشرف</h3>
+                            <input type="text" id="newUsername" placeholder="اسم المستخدم">
+                            <input type="email" id="newUserEmail" placeholder="البريد الإلكتروني">
+                             <input type="tel" id="newUserPhone" placeholder="رقم الهاتف">
+                            <input type="password" id="newUserPassword" placeholder="كلمة المرور">
+                             <select id="newUserRole">
+                                <option value="user">مستخدم</option>
+                                <option value="admin">مشرف</option>
+                             </select>
+                            <button onclick="addUser()">إضافة</button>
+                   </div>
+                <table id="usersTable" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-envelope"></i> البريد الإلكتروني</th>
+                            <th><i class="fas fa-user"></i> اسم المستخدم</th>
+                              <th><i class="fas fa-phone"></i> رقم الهاتف</th>
+                            <th><i class="fas fa-coins"></i> الرصيد</th>
+                             <th><i class="fas fa-user-tag"></i> الدور</th>
+                             <th><i class="fas fa-trash-alt"></i> حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="transactions-section" class="content-section" style="display: none;">
+                <h2><i class="fas fa-exchange-alt"></i> طلبات الإيداع والسحب</h2>
+                  <div class="filter-container">
+                    <select id="filterTypeTransactions">
+                        <option value="all">الكل</option>
+                        <option value="deposit">إيداع</option>
+                        <option value="withdrawal">سحب</option>
+                    </select>
+                        <select id="filterStatusTransactions">
+                            <option value="all">الكل</option>
+                             <option value="pending">قيد الانتظار</option>
+                            <option value="approved">موافق عليه</option>
+                            <option value="rejected">مرفوض</option>
+                         </select>
+                     <button onclick="applyTransactionFilters()">تصفية</button>
+                </div>
+                <table id="transactionsTable" class="styled-table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user"></i> المستخدم</th>
+                            <th><i class="fas fa-tags"></i> النوع</th>
+                            <th><i class="fas fa-money-bill-alt"></i> المبلغ</th>
+                             <th><i class="fas fa-phone"></i> رقم المرسل</th>
+                             <th><i class="fas fa-phone"></i> رقم المستلم</th>
+                            <th><i class="fas fa-phone"></i> رقم المرسل إليه</th>
+                            <th><i class="fas fa-image"></i> الصورة المرفقة</th>
+                            <th><i class="fas fa-info-circle"></i> الحالة</th>
+                            <th><i class="fas fa-check-double"></i> الموافقة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                   <div id="imageModal" class="modal">
+                       <span class="close-modal">×</span>
+                       <img class="modal-content" id="modalImage">
+                  </div>
+            </div>
+              <div id="receiverNumbers-section" class="content-section" style="display: none;">
+              <h2><i class="fas fa-phone-square"></i> تعديل أرقام التحويل</h2>
+                <div class="filter-container">
+                    <input type="text" id="searchReceiverNumbers" placeholder="ابحث بالرقم أو الشبكة">
+                </div>
+                <div class="add-number-container">
+                    <h3>إضافة رقم تحويل جديد</h3>
+                    <input type="tel" id="newReceiverNumber" placeholder="رقم الهاتف">
+                     <select id="newReceiverNetwork">
+                        <option value="vodafone">فودافون</option>
+                        <option value="orange">اورنج</option>
+                        <option value="etisalat">اتصالات</option>
+                         <option value="we">وي</option>
+                    </select>
+                    <button onclick="addReceiverNumber()">إضافة</button>
+                </div>
+                <table id="receiverNumbersTable" class="styled-table">
+                   <thead>
+                       <tr>
+                           <th><i class="fas fa-hashtag"></i> الرقم</th>
+                           <th><i class="fas fa-network-wired"></i> الشبكة</th>
+                            <th><i class="fas fa-edit"></i> تعديل</th>
+                             <th><i class="fas fa-trash-alt"></i> حذف</th>
+                       </tr>
+                   </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="scripts-admin.js"></script>
+</body>
+</html>
