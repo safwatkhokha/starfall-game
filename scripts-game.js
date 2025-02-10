@@ -1,5 +1,4 @@
 const socket = io('https://slender-shore-floss.glitch.me/');
-
 let users = {};
 let bets = [];
 let currentUser = null;
