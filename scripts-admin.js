@@ -1,4 +1,4 @@
-const socket = io('https://slender-shore-floss.glitch.me/');
+const socket = io('https://slender-shore-floss.glitch.me/'); // تم التعديل إلى رابط Glitch
 
 let users = {};
 let transactions = [];
@@ -29,26 +29,26 @@ function showSection(sectionId) {
        if (sectionLink) {
         sectionLink.classList.add('active');
      }
- 
+
  }
  // استقبال بيانات المستخدمين وتحديث الجدول
  socket.on('usersData', (data) => {
      users = data;
      updateUsersTable();
  });
- 
+
  // استقبال بيانات المعاملات وتحديث الجدول
  socket.on('transactionsUpdate', (data) => {
      transactions = data;
      updateTransactionsTable();
  });
- 
+
  // استقبال أرقام التحويل وتحديث الجدول
  socket.on('receiverNumbers', (data) => {
      receiverNumbers = data;
      updateReceiverNumbersTable();
  });
- 
+
  socket.on('statsUpdate', (data) => {
      document.getElementById('totalUsers').textContent = data.totalUsers;
      document.getElementById('totalDeposits').textContent = data.totalDeposits.toFixed(2);
@@ -59,7 +59,7 @@ function showSection(sectionId) {
  socket.on('notification', (message) => {
     showNotification(message);
  });
- 
+
  // دالة لتحديث جدول المستخدمين
  function updateUsersTable(filteredUsers = users) {
      const table = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
@@ -80,7 +80,7 @@ function showSection(sectionId) {
              deleteCell.appendChild(deleteButton);
       }
  }
- 
+
  function updateTransactionsTable(filteredTransactions = transactions) {
      const table = document.getElementById('transactionsTable').getElementsByTagName('tbody')[0];
      table.innerHTML = '';
@@ -123,7 +123,7 @@ function showSection(sectionId) {
         }
      });
  }
- 
+
  function approveTransaction(transactionId, type) {
      fetch('/approve-transaction', {
          method: 'POST',
@@ -157,7 +157,7 @@ function showSection(sectionId) {
          editButton.textContent = 'تعديل';
          editButton.onclick = () => editReceiverNumber(number, row);
          editCell.appendChild(editButton);
- 
+
            const deleteCell = row.insertCell(3);
              const deleteButton = document.createElement('button');
              deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
@@ -166,7 +166,7 @@ function showSection(sectionId) {
              deleteCell.appendChild(deleteButton);
      }
  }
- 
+
  function editReceiverNumber(number, row) {
      // تحويل الصف إلى وضع التعديل
      row.cells[0].innerHTML = `<input type="tel" value="${number}" class="edit-number">`;
@@ -176,12 +176,12 @@ function showSection(sectionId) {
            <option value="etisalat" ${receiverNumbers[number] === 'اتصالات' ? 'selected' : ''}>اتصالات</option>
             <option value="we" ${receiverNumbers[number] === 'we' ? 'selected' : ''}>وي</option>
      </select>`;
- 
+
      const editButton = row.cells[2].querySelector('button');
      editButton.textContent = 'حفظ';
      editButton.onclick = () => saveReceiverNumber(number, row);
  }
- 
+
  function saveReceiverNumber(number, row) {
      const newNumber = row.cells[0].querySelector('.edit-number').value;
      const newNetwork = row.cells[1].querySelector('.edit-network').value;
@@ -201,11 +201,19 @@ function showSection(sectionId) {
           showNotification("يجب إدخال رقم وشبكة صالحة");
      }
  }
- 
+
  function addReceiverNumber() {
-   const newNumber = document.getElementById('newReceiverNumber').value;
-   const newNetwork = document.getElementById('newReceiverNetwork').value;
- 
+   console.log("الدالة addReceiverNumber() تم استدعاؤها"); // تسجيل عند استدعاء الدالة
+   const newNumberInput = document.getElementById('newReceiverNumber');
+   const newNetworkSelect = document.getElementById('newReceiverNetwork');
+
+   console.log("newNumberInput:", newNumberInput); // تسجيل قيمة العنصر بعد جلبه
+   console.log("newNetworkSelect:", newNetworkSelect); // تسجيل قيمة العنصر بعد جلبه
+
+
+   const newNumber = newNumberInput.value;
+   const newNetwork = newNetworkSelect.value;
+
      if (newNumber && newNetwork) {
             const newReceiverNumbers = {};
                for (const key in receiverNumbers) {
@@ -249,13 +257,13 @@ function showSection(sectionId) {
     const searchTerm = this.value.toLowerCase();
     const table = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
      const rows = table.getElementsByTagName('tr');
- 
+
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
           const email = row.cells[0].textContent.toLowerCase();
             const username = row.cells[1].textContent.toLowerCase();
              const phone = row.cells[2].textContent.toLowerCase();
- 
+
        if (email.includes(searchTerm) || username.includes(searchTerm) || phone.includes(searchTerm)) {
              row.style.display = '';
         } else {
@@ -267,7 +275,7 @@ function showSection(sectionId) {
   socket.emit('getTransactions');
   socket.emit('getStats');
     socket.emit('getReceiverNumbers');
- 
+
  function createCharts() {
     const usersCtx = document.getElementById('usersChart').getContext('2d');
     usersChart = new Chart(usersCtx, {
@@ -308,13 +316,13 @@ function showSection(sectionId) {
         }
     });
  }
- 
+
  function updateCharts(data) {
      if(usersChart) {
       usersChart.data.datasets[0].data = [data.totalUsers];
       usersChart.update();
     }
- 
+
      if(transactionsChart) {
       transactionsChart.data.datasets[0].data = [data.totalDeposits,data.totalWithdrawals];
         transactionsChart.update();
@@ -396,13 +404,13 @@ function showSection(sectionId) {
         }, 300);
     }, 5000);
  }
- 
+
  function showImageModal(imageSrc) {
     const modal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
     modal.style.display = "block";
      modalImage.src = imageSrc;
- 
+
     const closeModal = document.querySelector('.close-modal');
     closeModal.onclick = function() {
         modal.style.display = "none";
