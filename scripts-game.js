@@ -1,4 +1,4 @@
-const socket = io('http://localhost:3000');
+const socket = io('https://slender-shore-floss.glitch.me/');
 
 let users = {};
 let bets = [];
