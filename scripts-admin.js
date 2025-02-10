@@ -1,3 +1,4 @@
+
 const socket = io('https://slender-shore-floss.glitch.me/'); // تم التعديل إلى رابط Glitch
 
 let users = {};
@@ -6,6 +7,7 @@ let receiverNumbers = {};
 let usersChart, transactionsChart;
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("scripts-admin.js is running!"); // تم إضافة هذا السطر في الأعلى تمامًا!
     // إضافة مستمع للأقسام الجانبية
     document.querySelectorAll('.sidebar-menu a').forEach(item => {
         item.addEventListener('click', (event) => {
